@@ -10,9 +10,10 @@
 
 <body>
     <div class="container" id="content">
-
+        <div class="row">
+            <h1>Cube Summation</h1>
+        </div>
         @yield('content')
-
     </div>
 </body>
 
