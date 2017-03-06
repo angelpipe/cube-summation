@@ -4,12 +4,12 @@
 
     <div class="row">
         <div class="col-md-12 alert alert-info">
-            <h3>Executed code:</h3>
+            <h4>Executed code:</h4>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 alert alert-success">
-            <h3>Output:</h3>
+            <h4>Output:</h4>
         </div>
     </div>
 
