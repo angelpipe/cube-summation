@@ -22,7 +22,8 @@ Business logic has two clases:
 
 There is no persistence layer.
 
-Tests are under the tests folder.
+Tests are under the tests folder. They run with the command
+```vendor/bin/phpunit```
 
 ## Requirements
 
