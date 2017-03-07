@@ -43,6 +43,7 @@ class Parser
         $result = array();
         $this->commands = preg_split("/\\r\\n|\\r|\\n/", $input);
         $result['commands'] = $this->commands;
+        $result['output'] = array();
 
         // Analyze and process each command
         $line = 1;
@@ -50,7 +51,7 @@ class Parser
             $parts = explode(' ', $command);
             if ($this->remaining_queries == 0) {
                 // Expect an init command
-                if ($this->validate_init($parts)) {
+                if ($this->validateInit($parts)) {
                     $this->cube->init($parts[0]);
                     $this->remaining_queries = $parts[1];
                 } else {
@@ -62,7 +63,7 @@ class Parser
                 // Expect a query
                 switch ($parts[0]) {
                     case 'UPDATE':
-                        if ($this->validate_update($parts)) {
+                        if ($this->validateUpdate($parts)) {
                             $this->cube->update($parts[1], $parts[2], $parts[3], $parts[4]);
                         } else {
                             $result['error_line'] = $line;
@@ -71,6 +72,15 @@ class Parser
                         }
                         break;
                     case 'QUERY':
+                        if ($this->validateSummation($parts)) {
+                            $sum = $this->cube->summate($parts[1], $parts[2], $parts[3], $parts[4], $parts[5], $parts[6]);
+                            $result['output'][] = $sum;
+                        } else {
+                            $result['error_line'] = $line;
+                            $result['error'] = 'Wrong query. Format is "QUERY X1 Y1 Z1 X2 Y2 Z2". X, Y, Z cannot ' .
+                                               'exceed N and second values need to be higher.';
+                            break 2;
+                        }
                         break;
                     default:
                         $result['error_line'] = $line;
@@ -92,7 +102,7 @@ class Parser
      *
      * @return bool
      */
-    public function validate_init ($command)
+    public function validateInit ($command)
     {
         if (count($command) != 2) {
             return false;
@@ -112,7 +122,7 @@ class Parser
      *
      * @return bool
      */
-    public function validate_update ($query)
+    public function validateUpdate ($query)
     {
         $size = $this->cube->getSize();
         if (count($query) != 5) {
@@ -126,6 +136,53 @@ class Parser
         } else if (!is_numeric($query[4])) {
             return false;
         } else if ($query[1] > $size || $query[2] > $size || $query[3] > $size) {
+            return false;
+        } else if ($query[1] < 1 || $query[2] < 1 || $query[3] < 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate a summate query.
+     *
+     * @param array    $query  query exploded into an array
+     *
+     * @return bool
+     */
+    public function validateSummation ($query)
+    {
+        $size = $this->cube->getSize();
+        if (count($query) != 7) {
+            return false;
+        } else if (!is_numeric($query[1])) {
+            return false;
+        } else if (!is_numeric($query[2])) {
+            return false;
+        } else if (!is_numeric($query[3])) {
+            return false;
+        } else if (!is_numeric($query[4])) {
+            return false;
+        } else if (!is_numeric($query[5])) {
+            return false;
+        } else if (!is_numeric($query[6])) {
+            return false;
+        } else if ($query[1] > $size) {
+            return false;
+        } else if ($query[2] > $size) {
+            return false;
+        } else if ($query[3] > $size) {
+            return false;
+        } else if ($query[4] > $size) {
+            return false;
+        } else if ($query[5] > $size) {
+            return false;
+        } else if ($query[6] > $size) {
+            return false;
+        } else if ($query[1] < 1 || $query[2] < 1 || $query[3] < 1 || $query[4] < 1 || $query[5] < 1 || $query[6] < 1) {
+            return false;
+        } else if ($query[1] > $query[4] || $query[2] > $query[5] || $query[3] > $query[6]) {
             return false;
         }
 

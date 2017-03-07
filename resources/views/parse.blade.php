@@ -25,6 +25,11 @@
     <div class="row">
         <div class="col-md-12 alert alert-success">
             <h4>Output:</h4>
+            <ul>
+                @foreach ($result['output'] as $output)
+                    <li> {{ $output }} </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 
