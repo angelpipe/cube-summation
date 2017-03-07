@@ -19,6 +19,7 @@ class Controller extends BaseController
 
     public function parse (Parser $parser)
     {
-        return view('parse');
+        $result = $parser->parse(request()->get('input'));
+        return view('parse')->with(compact('result'));
     }
 }

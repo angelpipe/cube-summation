@@ -13,7 +13,7 @@
         <div class="row">
             <h1>Cube Summation</h1>
         </div>
-        @yield('content')
+        @yield ('content')
     </div>
 </body>
 
