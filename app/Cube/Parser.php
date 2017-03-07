@@ -73,12 +73,13 @@ class Parser
                         break;
                     case 'QUERY':
                         if ($this->validateSummation($parts)) {
-                            $sum = $this->cube->summate($parts[1], $parts[2], $parts[3], $parts[4], $parts[5], $parts[6]);
+                            $sum = $this->cube->summate($parts[1], $parts[2], $parts[3], $parts[4], $parts[5],
+                                                        $parts[6]);
                             $result['output'][] = $sum;
                         } else {
                             $result['error_line'] = $line;
-                            $result['error'] = 'Wrong query. Format is "QUERY X1 Y1 Z1 X2 Y2 Z2". X, Y, Z cannot ' .
-                                               'exceed N and second values need to be higher.';
+                            $result['error'] = 'Wrong query. Format is "QUERY X1 Y1 Z1 X2 Y2 Z2". X, Y, Z cannot '
+                                             . 'exceed N and second values need to be higher.';
                             break 2;
                         }
                         break;

@@ -37,17 +37,17 @@ class CubeTest extends TestCase
      */
     public function testParserObject()
     {
-        $input = '4 5' . PHP_EOL .
-            'UPDATE 2 2 2 4' . PHP_EOL .
-            'QUERY 1 1 1 3 3 3' . PHP_EOL .
-            'UPDATE 1 1 1 23' . PHP_EOL .
-            'QUERY 2 2 2 4 4 4' . PHP_EOL .
-            'QUERY 1 1 1 3 3 3' . PHP_EOL .
-            '2 4' . PHP_EOL .
-            'UPDATE 2 2 2 1' . PHP_EOL .
-            'QUERY 1 1 1 1 1 1' . PHP_EOL .
-            'QUERY 1 1 1 2 2 2' . PHP_EOL .
-            'QUERY 2 2 2 2 2 2';
+        $input = '4 5' . PHP_EOL
+               . 'UPDATE 2 2 2 4' . PHP_EOL
+               . 'QUERY 1 1 1 3 3 3' . PHP_EOL
+               . 'UPDATE 1 1 1 23' . PHP_EOL
+               . 'QUERY 2 2 2 4 4 4' . PHP_EOL
+               . 'QUERY 1 1 1 3 3 3' . PHP_EOL
+               . '2 4' . PHP_EOL
+               . 'UPDATE 2 2 2 1' . PHP_EOL
+               . 'QUERY 1 1 1 1 1 1' . PHP_EOL
+               . 'QUERY 1 1 1 2 2 2' . PHP_EOL
+               . 'QUERY 2 2 2 2 2 2';
         $expectedOutput = array('output' => array(4, 4, 27, 0, 1, 1));
         $parser = $this->app->make('App\Cube\Parser');
         $result = $parser->parse($input);
